@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Info</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400&display=swap">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Movie Info</h1>
+
+        <form id="js-form">
+            <label for="search-term">Search for a movie</label>
+            <input type="text" name="search-term" id="js-search-term" placeholder="Pulp Fiction" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+        <p id="js-error-message" class="error-message"></p>
+        <section id="results" class="hidden">
+            <h2 class="search-header">Which movie were you looking for?</h2>
+            <form id="js-form-movies">
+                <label for="found-movies">Pick a selection: </label>
+                <select name="found-movies" id="js-found-movies">
+                </select>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+        <section id="movie-results" class="hidden">
+            <div id="movie-poster"></div>
+            <div id="movie-list"></div>
+        </section>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+</html>
