@@ -119,8 +119,11 @@ function getMovie(searchVal) {
 function displayYoutube(responseJson) {
     console.log(responseJson);
     for (let i = 0; i < responseJson.items.length; i++){
-      $('#movie-trailer').append(
-        `<iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.items[i].id.videoId}" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+      $('#trailer-thumb').append(
+        `<a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank"><img src="${responseJson.items[i].snippet.thumbnails.medium.url}" alt="${responseJson.items[i].snippet.title}"></a>`
+      );
+      $('#trailer-title').append(
+        `<a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank"><h3>${responseJson.items[i].snippet.title}</h3></a>`
     )};
   };
   
