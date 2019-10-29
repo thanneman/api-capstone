@@ -6,43 +6,47 @@ function formatQueryParams (params) {
     return queryItems.join('&');
 }
 
-//Creates the HTML for each repo and appends to element in the DOM
+
+//TEST for different movie API
 function displayResults(responseJson) {
-    console.log(responseJson);
-    //Clear error message and previous results
-    $('#js-error-message').empty();
-    $('#js-found-movies').empty();
-    $('#movie-poster').empty();
-    $('#movie-list').empty();
-    for (let i = 0; i < responseJson.Search.length; i++){
-        $('#js-found-movies').append(
-            `<option value="${responseJson.Search[i].imdbID}">${responseJson.Search[i].Title}, (${responseJson.Search[i].Year})</option>`
-    )};
-    $('#results').removeClass('hidden');
-    $(watchSecondForm);
+  console.log(responseJson);
+  //Clear error message and previous results
+  $('#js-error-message').empty();
+  $('#js-found-movies').empty();
+  $('#movie-poster').empty();
+  $('#movie-list').empty();
+  for (let i = 0; i < responseJson.results.length; i++){
+    $('#js-found-movies').append(
+      `<option value="${responseJson.results[i].id}">${responseJson.results[i].title}, (${responseJson.results[i].release_date})</option>`
+  )};
+  $('#results').removeClass('hidden');
+  $(watchSecondForm);
 };
 
-//Applies user's input into the api URL and checks for a 200 status
 function findMovie(searchTerm) {
-    const findUrl = 'http://www.omdbapi.com/?apikey=409a9a19&'
-    const params = {
-        s: searchTerm
-    };
+  const findUrl = 'https://api.themoviedb.org/3/search/movie?';
+  const params = {
+    api_key: '99a68578a1d03d97a1d4c9f381484db9',
+    language: 'en-US',
+    query: searchTerm,
+    page: '1',
+    include_adult: 'false'
+  };
 
-    const queryString = formatQueryParams(params);
-    const url = findUrl + queryString;
-    console.log(url);
-    fetch(url)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseJson => displayResults(responseJson))
-        .catch(err => {
-          $('#js-error-message').text(`Something went wrong: ${err.message}`);
-        });
+  const queryString = formatQueryParams(params);
+  const url = findUrl + queryString;
+  console.log(url);
+  fetch(url)
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          }
+          throw new Error(response.statusText);
+      })
+      .then(responseJson => displayResults(responseJson))
+      .catch(err => {
+        $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      });
 }
 
 //Wait for user input
@@ -51,7 +55,7 @@ function watchForm() {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
     findMovie(searchTerm);
-    getYouTubeVideos(searchTerm);
+    //getYouTubeVideos(searchTerm);
   });
 }
 
@@ -65,93 +69,77 @@ function watchSecondForm() {
     $('#js-form-movies').submit(event => {
       event.preventDefault();
       const searchVal = $('#js-found-movies').val();
-      getMovie(searchVal);
+      getData(searchVal);
     });
 }
 
-//Creates the HTML for each repo and appends to element in the DOM
-function displayMovie(responseJson) {
-    console.log(responseJson);
 
-    $('#movie-poster').append(
-        `<img src="${responseJson.Poster}" alt="${responseJson.Title} movie poster">`);
-    $('#movie-list').append(
-        `<h3>${responseJson.Title} (${responseJson.Year})</h3>
-            <p>Rated: ${responseJson.Rated}</p>
-            <p>Runtime: ${responseJson.Runtime}</p>
-            <p>Director: ${responseJson.Director}</p>
-            <p>Actors: ${responseJson.Actors}</p>
-            <p>Plot: ${responseJson.Plot}</p>
-            <p>Awards: ${responseJson.Awards}</p>
-            <p>IMDb Rating: ${responseJson.imdbRating} / 10</p>`);
-    $('#results').addClass('hidden');
-    $('#movie-results').removeClass('hidden');
-    $('#movie-trailer').removeClass('hidden');
+//Displays movie info in the DOM
+function displayMovieinfo(responseJson) {
+  console.log(responseJson);
+      //Add movie poster
+      $('#movie-poster').append(`<img src="https://image.tmdb.org/t/p/w300${responseJson.poster_path}" alt="${responseJson.title} movie poster">`);
+      //Add movie title
+      $('#movie-title').append(`${responseJson.title} (${responseJson.release_date})`);
+      //Add movie runtime
+      $('#movie-time').append(`<b>Runtime:</b> ${responseJson.runtime}min`);
+      //Add movie rating
+      for (let i = 0; i < responseJson.release_dates.results.length; i++) {
+          if(responseJson.release_dates.results[i].iso_3166_1 === 'US') {
+              $('#movie-rating').append(`<b>Rated:</b> ${responseJson.release_dates.results[i].release_dates[0].certification}`);
+          }
+      };
+      //Add movie director
+      for (let i = 0; i < responseJson.credits.crew.length; i++) {
+          if(responseJson.credits.crew[i].job === 'Director') {
+              $('#movie-director').append(`<b>Director:</b> ${responseJson.credits.crew[i].name} `);
+          }
+      };
+      //Add movie plot
+      $('#movie-plot').append(`<b>Plot:</b> ${responseJson.overview}`);
+      //Add movie rating
+      $('#movie-score').append(`<b>Rating:</b> ${responseJson.vote_average}/10`);
+      //Add movie cast
+      for (let i = 0; i < 3; i++) {
+          $('#movie-cast').append(`
+              <h2>Cast</h2>
+              <div class="cast-card" id="${responseJson.credits.cast[i].name} card">
+                  <div class="cast-image" id="${responseJson.credits.cast[i].name} profile">
+                      <img src="https://image.tmdb.org/t/p/w185${responseJson.credits.cast[i].profile_path}" alt="${responseJson.credits.cast[i].name}">
+                  </div>
+                  <div class="cast-name" id="${responseJson.credits.cast[i].name} title">
+                      <p><b>${responseJson.credits.cast[i].name}</b> - ${responseJson.credits.cast[i].character}</p>
+                  </div>
+              </div>`);
+      };
+      //Add YouTube trailer
+      for (let i = 0; i < responseJson.videos.results.length; i++) {
+          if(responseJson.videos.results[i].iso_3166_1 === 'US' && responseJson.videos.results[i].type === 'Trailer') {
+              $('#movie-trailer').append(`
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.videos.results[i].key}" frameborder="0" allow="accelerometer; gyroscope; picture-in-picture" allowfullscreen></iframe>`);
+          }
+      };
+  
+      $('#results').addClass('hidden');
+      $('#movie-results').removeClass('hidden');
 };
 
-//Applies user's input into the api URL and checks for a 200 status
-function getMovie(searchVal) {
-    const getUrl = 'http://www.omdbapi.com/?apikey=409a9a19&'
-    const params = {
-        i: searchVal
-    };
-
-    const queryString = formatQueryParams(params);
-    const secondUrl = getUrl + queryString;
-    console.log(secondUrl);
-    fetch(secondUrl)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseJson => displayMovie(responseJson))
-        .catch(err => {
-          $('#js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-}
 
 
-
-
-//YouTube API for Trailer
-function displayYoutube(responseJson) {
-    console.log(responseJson);
-    for (let i = 0; i < responseJson.items.length; i++){
-      $('#trailer-thumb').append(
-        `<a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank"><img src="${responseJson.items[i].snippet.thumbnails.medium.url}" alt="${responseJson.items[i].snippet.title}"></a>`
-      );
-      $('#trailer-title').append(
-        `<a href="https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}" target="_blank"><h3>${responseJson.items[i].snippet.title}</h3></a>`
-    )};
-  };
+function getData(searchVal) {
+  const firstUrl = 'https://api.themoviedb.org/3/movie/' + searchVal + '?api_key=99a68578a1d03d97a1d4c9f381484db9&language=en-US&append_to_response=credits,release_dates,videos';
   
-  function getYouTubeVideos(query, maxResults=1) {
-    const apiKey = 'AIzaSyB9Avb3cXTPYRtPK_eCTIYp699EiyePoxA'; 
-    const youtubeURL = 'https://www.googleapis.com/youtube/v3/search';
-
-    const params = {
-      key: apiKey,
-      q: query + ' trailer',
-      part: 'snippet',
-      maxResults,
-      type: 'video'
-    };
-    const queryString = formatQueryParams(params)
-    const url = youtubeURL + '?' + queryString;
+  console.log(firstUrl);
   
-    console.log(url);
-  
-    fetch(url)
+  fetch(firstUrl)
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
+          if (response.ok) {
+              return response.json();
+          }
+          throw new Error(response.statusText);
       })
-      .then(responseJson => displayYoutube(responseJson))
+      .then(responseJson => displayMovieinfo(responseJson))
       .catch(err => {
         $('#js-error-message').text(`Something went wrong: ${err.message}`);
-      });
-  }
+  });
+}

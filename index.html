@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Info</title>
+    <title>Movie Info TEST</title>
     <link rel="shortcut icon" href="">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400&display=swap">
     <link rel="stylesheet" href="index.css">
@@ -31,12 +31,21 @@
             </form>
         </section>
         <section id="movie-results" class="hidden">
-            <div id="movie-poster"></div>
-            <div id="movie-list"></div>
-        </section>
-        <section id="movie-trailer" class="hidden">
-            <div id="trailer-thumb"></div>
-            <div id="trailer-title"></div>
+            <div class="info-left">
+                <div id="movie-poster"></div>
+            </div>
+            <div class="info-right">
+                <h3 id="movie-title"></h3>
+                <p id="movie-rating"></p>
+                <p id="movie-time"></p>
+                <p id="movie-director"></p>
+                <p id="movie-plot"></p>
+                <p id="movie-score"></p>
+            </div>
+            <div id="movie-cast"></div>
+            <div id="movie-trailer">
+                <h3>Trailer(s)</h3>
+            </div>
         </section>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
