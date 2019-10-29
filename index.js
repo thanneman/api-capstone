@@ -16,8 +16,9 @@ function displayResults(responseJson) {
   $('#movie-poster').empty();
   $('#movie-list').empty();
   for (let i = 0; i < responseJson.results.length; i++){
+    const movieDate = responseJson.results[i].release_date;
     $('#js-found-movies').append(
-      `<option value="${responseJson.results[i].id}">${responseJson.results[i].title}, (${responseJson.results[i].release_date})</option>`
+      `<option value="${responseJson.results[i].id}">${responseJson.results[i].title}, (${movieDate.slice(0, 4)})</option>`
   )};
   $('#results').removeClass('hidden');
   $(watchSecondForm);
@@ -77,10 +78,11 @@ function watchSecondForm() {
 //Displays movie info in the DOM
 function displayMovieinfo(responseJson) {
   console.log(responseJson);
+  const movieDate = responseJson.release_date;
       //Add movie poster
       $('#movie-poster').append(`<img src="https://image.tmdb.org/t/p/w300${responseJson.poster_path}" alt="${responseJson.title} movie poster">`);
       //Add movie title
-      $('#movie-title').append(`${responseJson.title} (${responseJson.release_date})`);
+      $('#movie-title').append(`${responseJson.title} (${movieDate.slice(0, 4)})`);
       //Add movie runtime
       $('#movie-time').append(`<b>Runtime:</b> ${responseJson.runtime}min`);
       //Add movie rating
@@ -102,22 +104,30 @@ function displayMovieinfo(responseJson) {
       //Add movie cast
       for (let i = 0; i < 3; i++) {
           $('#movie-cast').append(`
-              <h2>Cast</h2>
               <div class="cast-card" id="${responseJson.credits.cast[i].name} card">
-                  <div class="cast-image" id="${responseJson.credits.cast[i].name} profile">
-                      <img src="https://image.tmdb.org/t/p/w185${responseJson.credits.cast[i].profile_path}" alt="${responseJson.credits.cast[i].name}">
-                  </div>
-                  <div class="cast-name" id="${responseJson.credits.cast[i].name} title">
-                      <p><b>${responseJson.credits.cast[i].name}</b> - ${responseJson.credits.cast[i].character}</p>
-                  </div>
+                <div class="cast-image" id="${responseJson.credits.cast[i].name} profile">
+                  <img src="https://image.tmdb.org/t/p/w185${responseJson.credits.cast[i].profile_path}" alt="${responseJson.credits.cast[i].name}">
+                </div>
+                <div class="cast-name" id="${responseJson.credits.cast[i].name} title">
+                  <p><b>${responseJson.credits.cast[i].name}</b> - ${responseJson.credits.cast[i].character}</p>
+                </div>
               </div>`);
       };
       //Add YouTube trailer
       for (let i = 0; i < responseJson.videos.results.length; i++) {
           if(responseJson.videos.results[i].iso_3166_1 === 'US' && responseJson.videos.results[i].type === 'Trailer') {
               $('#movie-trailer').append(`
-                  <iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.videos.results[i].key}" frameborder="0" allow="accelerometer; gyroscope; picture-in-picture" allowfullscreen></iframe>`);
+                <center><iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.videos.results[i].key}" frameborder="0" allow="accelerometer; gyroscope; picture-in-picture" allowfullscreen></iframe></center>`);
           }
+      };
+      //Add recommendations
+      for (let i = 0; i < 4; i++) {
+            $('#movie-recs').append(`
+              <div class="rec-card" id="">
+                <div class="rec-image" id="">
+                  <img src="https://image.tmdb.org/t/p/w185${responseJson.recommendations.results[i].poster_path}" alt="${responseJson.recommendations.results[i].title}">
+                </div>
+              </div>`);
       };
   
       $('#results').addClass('hidden');
@@ -127,7 +137,7 @@ function displayMovieinfo(responseJson) {
 
 
 function getData(searchVal) {
-  const firstUrl = 'https://api.themoviedb.org/3/movie/' + searchVal + '?api_key=99a68578a1d03d97a1d4c9f381484db9&language=en-US&append_to_response=credits,release_dates,videos';
+  const firstUrl = 'https://api.themoviedb.org/3/movie/' + searchVal + '?api_key=99a68578a1d03d97a1d4c9f381484db9&language=en-US&append_to_response=credits,release_dates,videos,recommendations';
   
   console.log(firstUrl);
   
