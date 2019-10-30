@@ -51,16 +51,12 @@ function watchForm() {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
     findMovie(searchTerm);
-    $('#movie-poster').empty();
-    $('#movie-title').empty();
-    $('#movie-rating').empty();
-    $('#movie-time').empty();
-    $('#movie-director').empty();
-    $('#movie-plot').empty();
-    $('#movie-score').empty();
+    $('.info-left').empty();
+    $('.info-right').empty();
     $('#movie-cast').empty();
     $('#movie-trailer').empty();
     $('#movie-recs').empty();
+    $('#js-search-term').val(null);
   });
 }
 
