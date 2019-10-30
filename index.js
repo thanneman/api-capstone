@@ -140,6 +140,8 @@ function displayMovieinfo(responseJson) {
       $('#results').addClass('hidden');
       $('#movie-results').removeClass('hidden');
       $('#js-found-movies').empty();
+      $('#js-form').hide();
+      $('#js-new-search').removeClass('hidden');
 };
 
 
