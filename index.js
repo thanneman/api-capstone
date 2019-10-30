@@ -1,7 +1,7 @@
 'use strict';
 
 //Format Query
-function formatQueryParams (params) {
+function formatQueryParams(params) {
     const queryItems = Object.keys(params).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     return queryItems.join('&');
 }
@@ -10,11 +10,6 @@ function formatQueryParams (params) {
 //TEST for different movie API
 function displayResults(responseJson) {
   console.log(responseJson);
-  //Clear error message and previous results
-  $('#js-error-message').empty();
-  $('#js-found-movies').empty();
-  $('#movie-poster').empty();
-  $('#movie-list').empty();
   for (let i = 0; i < responseJson.results.length; i++){
     const movieDate = responseJson.results[i].release_date;
     $('#js-found-movies').append(
@@ -56,7 +51,16 @@ function watchForm() {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
     findMovie(searchTerm);
-    //getYouTubeVideos(searchTerm);
+    $('#movie-poster').empty();
+    $('#movie-title').empty();
+    $('#movie-rating').empty();
+    $('#movie-time').empty();
+    $('#movie-director').empty();
+    $('#movie-plot').empty();
+    $('#movie-score').empty();
+    $('#movie-cast').empty();
+    $('#movie-trailer').empty();
+    $('#movie-recs').empty();
   });
 }
 
@@ -80,33 +84,38 @@ function displayMovieinfo(responseJson) {
   console.log(responseJson);
   const movieDate = responseJson.release_date;
       //Add movie poster
-      $('#movie-poster').append(`<img src="https://image.tmdb.org/t/p/w300${responseJson.poster_path}" alt="${responseJson.title} movie poster">`);
+      $('.info-left').append(`
+      <div id="movie-poster">
+        <img src="https://image.tmdb.org/t/p/w300${responseJson.poster_path}" alt="${responseJson.title} movie poster">
+      </div>`);
       //Add movie title
-      $('#movie-title').append(`${responseJson.title} (${movieDate.slice(0, 4)})`);
-      //Add movie runtime
-      $('#movie-time').append(`<b>Runtime:</b> ${responseJson.runtime}min`);
+      $('.info-right').append(`
+      <h3 id="movie-title">${responseJson.title} (${movieDate.slice(0, 4)})</h3>`);
       //Add movie rating
       for (let i = 0; i < responseJson.release_dates.results.length; i++) {
-          if(responseJson.release_dates.results[i].iso_3166_1 === 'US') {
-              $('#movie-rating').append(`<b>Rated:</b> ${responseJson.release_dates.results[i].release_dates[0].certification}`);
-          }
+        if(responseJson.release_dates.results[i].iso_3166_1 === 'US') {
+            $('.info-right').append(`<p id="movie-rating"><b>Rated:</b> ${responseJson.release_dates.results[i].release_dates[0].certification}</p>`);
+        }
       };
+      //Add movie runtime
+      $('.info-right').append(`<p id="movie-time"><b>Runtime:</b> ${responseJson.runtime}min</p>`);
       //Add movie director
       for (let i = 0; i < responseJson.credits.crew.length; i++) {
           if(responseJson.credits.crew[i].job === 'Director') {
-              $('#movie-director').append(`<b>Director:</b> ${responseJson.credits.crew[i].name} `);
+              $('.info-right').append(`<p id="movie-director"><b>Director:</b> ${responseJson.credits.crew[i].name} </p>`);
           }
       };
       //Add movie plot
-      $('#movie-plot').append(`<b>Plot:</b> ${responseJson.overview}`);
+      $('.info-right').append(`<p id="movie-plot"><b>Plot:</b> ${responseJson.overview}</p>`);
       //Add movie rating
-      $('#movie-score').append(`<b>Rating:</b> ${responseJson.vote_average}/10`);
+      $('.info-right').append(`<p id="movie-score"><b>Rating:</b> ${responseJson.vote_average}/10</p>`);
       //Add movie cast
+      $('#movie-cast').append(`<h2>Cast</h2>`);
       for (let i = 0; i < 3; i++) {
           $('#movie-cast').append(`
               <div class="cast-card" id="${responseJson.credits.cast[i].name} card">
                 <div class="cast-image" id="${responseJson.credits.cast[i].name} profile">
-                  <img src="https://image.tmdb.org/t/p/w185${responseJson.credits.cast[i].profile_path}" alt="${responseJson.credits.cast[i].name}">
+                  <img src="https://image.tmdb.org/t/p/original${responseJson.credits.cast[i].profile_path}" alt="${responseJson.credits.cast[i].name}">
                 </div>
                 <div class="cast-name" id="${responseJson.credits.cast[i].name} title">
                   <p><b>${responseJson.credits.cast[i].name}</b> - ${responseJson.credits.cast[i].character}</p>
@@ -114,6 +123,7 @@ function displayMovieinfo(responseJson) {
               </div>`);
       };
       //Add YouTube trailer
+      $('#movie-trailer').append(`<h2>Trailer</h2>`);
       for (let i = 0; i < responseJson.videos.results.length; i++) {
           if(responseJson.videos.results[i].iso_3166_1 === 'US' && responseJson.videos.results[i].type === 'Trailer') {
               $('#movie-trailer').append(`
@@ -121,10 +131,11 @@ function displayMovieinfo(responseJson) {
           }
       };
       //Add recommendations
+      $('#movie-recs').append(`<h2>Recommendations</h2>`);
       for (let i = 0; i < 4; i++) {
             $('#movie-recs').append(`
-              <div class="rec-card" id="">
-                <div class="rec-image" id="">
+              <div class="rec-card" id="${responseJson.recommendations.results[i].title}">
+                <div class="rec-image" id="${responseJson.recommendations.results[i].title}">
                   <img src="https://image.tmdb.org/t/p/w185${responseJson.recommendations.results[i].poster_path}" alt="${responseJson.recommendations.results[i].title}">
                 </div>
               </div>`);
@@ -132,6 +143,7 @@ function displayMovieinfo(responseJson) {
   
       $('#results').addClass('hidden');
       $('#movie-results').removeClass('hidden');
+      $('#js-found-movies').empty();
 };
 
 

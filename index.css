@@ -73,6 +73,11 @@
     vertical-align: top;
   }
 
+  .cast-image {
+    height: 350px;
+    overflow: hidden;
+  }
+
   .cast-image img {
     width: 100%;
   }
