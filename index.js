@@ -148,7 +148,7 @@ function displayMovieinfo(responseJson) {
 
 function getData(searchVal) {
   const firstUrl = 'https://api.themoviedb.org/3/movie/' + searchVal + '?api_key=99a68578a1d03d97a1d4c9f381484db9&language=en-US&append_to_response=credits,release_dates,videos,recommendations';
-  
+
   console.log(firstUrl);
   
   fetch(firstUrl)
