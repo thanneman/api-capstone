@@ -45,6 +45,16 @@
     padding: 50px 10px;
   }
 
+  .site-about {
+    text-align: center;
+    width: 60%;
+    margin: 100px auto 0px;
+  }
+
+  #js-form-movies {
+    text-align: center;
+  }
+
   .info-left {
     display: inline-block;
     width: 29%;

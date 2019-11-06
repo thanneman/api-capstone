@@ -19,6 +19,7 @@ function watchForm() {
     $('#movie-recs').empty();
     $('#js-error-message').empty();
     $('#js-search-term').val(null);
+    $('#js-about').hide();
   });
 }
 
