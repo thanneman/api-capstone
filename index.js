@@ -208,7 +208,7 @@ function displayMovieinfo(responseJson) {
 
       //Add YouTube trailer
       if (responseJson.videos.results.length !== 0) {
-        $('#movie-trailer').append(`<h2>Trailer</h2>`);
+        $('#movie-trailer').append(`<h2>Trailer(s)</h2>`);
           for (let i = 0; i < responseJson.videos.results.length; i++) {
             if(responseJson.videos.results[i].iso_3166_1 === 'US' && responseJson.videos.results[i].type === 'Trailer') {
               $('#movie-trailer').append(`

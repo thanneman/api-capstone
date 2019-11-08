@@ -16,20 +16,20 @@
         </section>
         <form id="js-form" class="query-search">
             <label for="search-term">Search for a movie:</label>
-            <input type="text" name="search-term" id="js-search-term" placeholder="Pulp Fiction" required>
-            <input type="submit" value="Submit">
+            <input type="text" name="search-term" id="js-search-term" tabindex="1" placeholder="Pulp Fiction" required>
+            <input type="submit" value="Submit" tabindex="2">
         </form>
         <p id="js-error-message" class="error-message"></p>
         <section id="results" class="hidden">
             <h2 class="search-header">Which movie were you looking for?</h2>
             <form id="js-form-movies" class="movie-search">
                 <label for="found-movies">Pick a selection: </label>
-                <select name="found-movies" id="js-found-movies"></select>
-                <input type="submit" value="Submit">
+                <select name="found-movies" id="js-found-movies" tabindex="3"></select>
+                <input type="submit" value="Submit" tabindex="4">
             </form>
         </section>
         <section id="js-new-search" class="new-search hidden">
-            <button value="New Search" onClick="window.location.reload();">New Search</button>
+            <button value="New Search" tabindex="5" onClick="window.location.reload();">New Search</button>
         </section>
         <section id="movie-results" class="hidden">
             <div class="info-left"></div>

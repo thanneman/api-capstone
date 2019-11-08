@@ -30,10 +30,6 @@
   section {
     text-align: left;
   }
-
- .search-header {
-    text-align: center;
-  }
   
   .hidden {
     display: none;
@@ -107,7 +103,6 @@
     font-size: 20px;
     color: #000000;
     padding: 8px 20px;
-    width: 75%;
     background-color: #cccccc;
     border: 1px solid transparent;
     border-radius: 5px;
@@ -258,16 +253,233 @@
 
 
 
+@media only screen and (min-width: 551px) and (max-width: 900px) {
+  .cast-image {
+    height: auto;
+  }
 
-  @media only screen and (min-width: 551px) and (max-width: 900px) {
-    
+  .cast-image img {
+    min-height: auto;
+  }
+
+  .rec-card {
+    display: inline-block;
+    width: 23%;
+    margin: 2px;
+  }
+
+  .rec-image {
+    width: 100%;
+    margin: 0px auto;
+    height: auto;
+    min-height: auto;
+  }
+
+  .rec-image img {
+    width: 100%;
+  }
 }
 
 @media only screen and (min-width: 321px) and (max-width: 550px) {
-    
+  h2 {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .info-right {
+    text-align: center;
+  }
+  
+  .query-search {
+    margin-top: 100px;
+  }
+
+  .query-search input[type=text] {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    padding: 8px 20px;
+    margin: 10px auto;
+    text-align: center;
+  }
+
+  .query-search input[type=submit] {
+    display: block;
+    width: 50%;
+    margin: 10px auto;
+  }
+
+  .site-about {
+    width: 100%;
+    margin: 50px auto 0px;
+  }
+
+  .search-header {
+    width: 100%;
+    margin: 50px auto 0px;
+  }
+
+  #js-found-movies {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    margin: 10px auto;
+  }
+
+  .movie-search {
+    margin-top: 100px;
+  }
+
+  .movie-search input[type=submit] {
+    display: block;
+    width: 50%;
+    margin: 10px auto 50px;
+  }
+
+  button {
+    font-size: 20px;
+    color: #000000;
+    padding: 8px;
+    background-color: #cccccc;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    margin: 10px 0px;
+    cursor: pointer;
+    transition: background-color .15s
+        ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #ffffff;
+  }
+
+
+  .info-left {
+    display: block;
+    width: 100%;
+  }
+
+  .info-right {
+    display: block;
+    width: 100%;
+    padding-left: 0;
+  }
+
+  #movie-poster {
+    width: 80%;
+    margin: 0px auto;
+  }
+
+  .cast-card {
+    display: block;
+    width: 100%;
+    margin: 0px auto 40px;
+    text-align: center;
+  }
+
+  .cast-image {
+    width: 80%;
+    margin: 0px auto;
+    height: auto;
+    min-height: auto;
+  }
+
+  .cast-image img {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .rec-card {
+    display: inline-block;
+    width: 48%;
+    margin: 2px;
+  }
+
+  .rec-image {
+    width: 100%;
+    margin: 0px auto;
+    height: auto;
+    min-height: auto;
+  }
+
+  .rec-image img {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 320px) {
+  h2 {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .info-right {
+    text-align: center;
+  }
+
+  .query-search {
+    margin-top: 100px;
+  }
+
+  .query-search input[type=text] {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    padding: 8px 20px;
+    margin: 10px auto;
+    text-align: center;
+  }
+
+  .query-search input[type=submit] {
+    display: block;
+    width: 50%;
+    margin: 10px auto;
+  }
+
+  .site-about {
+    width: 100%;
+    margin: 50px auto 0px;
+  }
+
+  .search-header {
+    width: 100%;
+    margin: 50px auto 0px;
+  }
+
+  #js-found-movies {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    margin: 10px auto;
+  }
+
+  .movie-search {
+    margin-top: 100px;
+  }
+
+  .movie-search input[type=submit] {
+    display: block;
+    width: 50%;
+    margin: 10px auto 50px;
+  }
+
+  button {
+    font-size: 20px;
+    color: #000000;
+    padding: 8px;
+    background-color: #cccccc;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    margin: 10px 0px;
+    cursor: pointer;
+    transition: background-color .15s
+        ease-in-out;
+  }
+  
+  button:hover {
+    background-color: #ffffff;
+  }
+
 
   .info-left {
     display: block;
@@ -299,22 +511,8 @@
     min-height: auto;
   }
 
-  .trailer {
-    overflow:hidden;
-    padding-bottom:56.25%;
-    position:relative;
-    height:0;
-    margin-bottom: 10px;
-  }
-
-  .trailer iframe {
-    height:100%;
-    width:100%;
-    position:absolute;
-  }
-
   .rec-card {
-    display: inline-block;
+    display: block;
     width: 100%;
     margin: 0px auto 20px;
   }
