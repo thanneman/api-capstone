@@ -1,5 +1,10 @@
 'use strict';
 
+let searchEx = [ 'Pulp Fiction', 'Deadpool', 'The Godfather', 'Forrest Gump', 'The Shawshank Redemption', 'The Dark Knight' ];
+  setInterval(function() {
+    $('#js-search-term').attr("placeholder", searchEx[searchEx.push(searchEx.shift())-1]);
+  }, 2000);
+
 //Format Query
 function formatQueryParams(params) {
   const queryItems = Object.keys(params).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -20,6 +25,7 @@ function watchForm() {
     $('#js-error-message').empty();
     $('#js-search-term').val(null);
     $('#js-about').hide();
+    $('#js-form').hide();
   });
 }
 
@@ -58,14 +64,22 @@ function displayResults(responseJson) {
   } else {
     for (let i = 0; i < responseJson.results.length; i++){
       const movieDate = responseJson.results[i].release_date;
-      $('#js-found-movies').append(
-        `<option value="${responseJson.results[i].id}">${responseJson.results[i].title}, (${movieDate.slice(0, 4)})</option>`
-    )};
+      if (typeof(movieDate) === "undefined") {
+        $('#js-found-movies').append(
+          `<option value="${responseJson.results[i].id}">${responseJson.results[i].title}</option>`);
+      } else if (movieDate === "") {
+        $('#js-found-movies').append(
+          `<option value="${responseJson.results[i].id}">${responseJson.results[i].title}</option>`);
+      } else {
+        $('#js-found-movies').append(
+          `<option value="${responseJson.results[i].id}">${responseJson.results[i].title} (${movieDate.slice(0, 4)})</option>`);
+      }
+    };
     $('#results').removeClass('hidden');
-    $('#js-form').hide();
-    $('#js-new-search').removeClass('hidden');
+    
     $(watchSecondForm);
   }
+  $('#js-new-search').removeClass('hidden');
 };
 
 
@@ -127,9 +141,9 @@ function displayMovieinfo(responseJson) {
       }
 
       //Add movie rating
-      if (responseJson.release_dates.results.length !== 0 && responseJson.release_dates.results[0].release_dates[0].certification !== '') {
+      if (responseJson.release_dates.results.length !== 0) {
         for (let i = 0; i < responseJson.release_dates.results.length; i++) {
-          if(responseJson.release_dates.results[i].iso_3166_1 === 'US') {
+          if(responseJson.release_dates.results[i].iso_3166_1 === 'US' && responseJson.release_dates.results[i].certification !== "") {
             $('.info-right').append(`<p id="movie-rating"><b>Rated:</b> ${responseJson.release_dates.results[i].release_dates[0].certification}</p>`);
           }
         };
@@ -142,6 +156,13 @@ function displayMovieinfo(responseJson) {
         $('.info-right').append(`<p id="movie-time"><b>Runtime:</b> ${responseJson.runtime}min</p>`);
       } else {
         $('.info-right').append(`<p id="movie-time"><b>Runtime:</b> No data to display</p>`);
+      }
+
+      //Add genres
+      if (responseJson.genres.length !== 0) {
+        $('.info-right').append(`<p id="movie-time"><b>Genre:</b> ${responseJson.genres[0].name}</p>`);
+      } else {
+        $('.info-right').append(`<p id="movie-time"><b>Genre:</b> No data to display</p>`);
       }
 
       //Add movie director
@@ -191,7 +212,7 @@ function displayMovieinfo(responseJson) {
           for (let i = 0; i < responseJson.videos.results.length; i++) {
             if(responseJson.videos.results[i].iso_3166_1 === 'US' && responseJson.videos.results[i].type === 'Trailer') {
               $('#movie-trailer').append(`
-                <center><iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.videos.results[i].key}" frameborder="0" allow="accelerometer; gyroscope; picture-in-picture" allowfullscreen></iframe></center>`);
+                <div class="trailer"><iframe width="560" height="315" src="https://www.youtube.com/embed/${responseJson.videos.results[i].key}" frameborder="0" allow="accelerometer; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`);
             }
         };
       } 
@@ -214,5 +235,7 @@ function displayMovieinfo(responseJson) {
       $('#js-found-movies').empty();
       $('#js-form').hide();
 };
+
+
 
 $(watchForm);

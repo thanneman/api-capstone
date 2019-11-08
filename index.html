@@ -11,29 +11,25 @@
 
 <body>
     <div class="container">
-        <h1>Movie Info</h1>
-
-        <form id="js-form">
-            <label for="search-term">Search for a movie: </label>
+        <section id="js-about" class="site-about">
+            <h1>Find out more about your favorite movies!</h1>
+        </section>
+        <form id="js-form" class="query-search">
+            <label for="search-term">Search for a movie:</label>
             <input type="text" name="search-term" id="js-search-term" placeholder="Pulp Fiction" required>
-            <br>
             <input type="submit" value="Submit">
         </form>
-        <section id="js-about" class="site-about">
-            <h2>Enter a movie above to find out more information about your favorite movies!</h2>
-        </section>
-        <section id="js-new-search" class="new-search hidden">
-            <button value="New Search" onClick="window.location.reload();">New Search</button>
-        </section>
         <p id="js-error-message" class="error-message"></p>
         <section id="results" class="hidden">
             <h2 class="search-header">Which movie were you looking for?</h2>
-            <form id="js-form-movies">
+            <form id="js-form-movies" class="movie-search">
                 <label for="found-movies">Pick a selection: </label>
-                <select name="found-movies" id="js-found-movies">
-                </select>
+                <select name="found-movies" id="js-found-movies"></select>
                 <input type="submit" value="Submit">
             </form>
+        </section>
+        <section id="js-new-search" class="new-search hidden">
+            <button value="New Search" onClick="window.location.reload();">New Search</button>
         </section>
         <section id="movie-results" class="hidden">
             <div class="info-left"></div>
