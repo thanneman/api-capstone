@@ -11,7 +11,7 @@ Select a movie from the list:
 ![alt text](https://github.com/thanneman/api-capstone/blob/master/images/screen2.jpg "Screenshot #2")
 
 Take it all in:
-![alt text](https://github.com/thanneman/api-capstone/blob/master/images/screen2.jpg "Screenshot #3")
+![alt text](https://github.com/thanneman/api-capstone/blob/master/images/screen3.jpg "Screenshot #3")
 
 ## Built With
 
