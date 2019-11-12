@@ -11,7 +11,7 @@ function formatQueryParams(params) {
   return queryItems.join('&');
 }
 
-//Wait for user input
+//Wait for user input on search
 function watchForm() {
   $('#js-form').submit(event => {
     event.preventDefault();
@@ -42,7 +42,6 @@ function findMovie(searchTerm) {
 
   const queryString = formatQueryParams(params);
   const url = findUrl + queryString;
-  console.log(url);
   fetch(url)
       .then(response => {
           if (response.ok) {
@@ -58,7 +57,6 @@ function findMovie(searchTerm) {
 
 //Display first search results
 function displayResults(responseJson) {
-  console.log(responseJson);
   if (responseJson.results.length === 0) {
     $('#js-error-message').text(`Movie not found. Please search for something else`);
   } else {
@@ -96,11 +94,8 @@ function watchSecondForm() {
 
 //Fetch second set of info from API
 function getData(searchVal) {
-  const firstUrl = 'https://api.themoviedb.org/3/movie/' + searchVal + '?api_key=99a68578a1d03d97a1d4c9f381484db9&language=en-US&append_to_response=credits,release_dates,videos,recommendations';
-
-  console.log(firstUrl);
-  
-  fetch(firstUrl)
+  const movieFetch = 'https://api.themoviedb.org/3/movie/' + searchVal + '?api_key=99a68578a1d03d97a1d4c9f381484db9&language=en-US&append_to_response=credits,release_dates,videos,recommendations';
+  fetch(movieFetch)
       .then(response => {
           if (response.ok) {
               return response.json();
@@ -117,7 +112,6 @@ function getData(searchVal) {
 
 //Displays movie info in the DOM
 function displayMovieinfo(responseJson) {
-  console.log(responseJson);
   const movieDate = responseJson.release_date;
   
       //Add movie poster
