@@ -2,6 +2,10 @@
 
 Link: https://thanneman.github.io/api-capstone/
 
+## Summary
+
+Search for movies to find the plot, cast, trailers, and more! 
+
 ## Screenshots
 
 Search a movie:
